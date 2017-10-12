@@ -6,8 +6,8 @@
 ```
  y = w * x + b
 ```
- .pb file will store model and weight `w` and bias `b`
- .pb file can be loaded from anroid app and run model with trianed weights
+- Run test.py will genegate a  PB file that store model with weight `w` and bias `b`.
+- this file can be loaded from anroid app and run model with trianed weights
 
 ## Using TensorFlow on Android Project
 1. Clone tensorflow project and build TF libraries
