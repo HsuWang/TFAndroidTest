@@ -1,6 +1,6 @@
 # TensorFlow on Android
 
-## Genegating .pb file by TensorflowPython
+## Genegating .pb file by Tensorflow Python Code
  test.py is a simple example that modified from https://www.tensorflow.org/get_started/get_started#complete_program
  this code use GradientDescentOptimizer to optimize a linear model
 ```
@@ -33,10 +33,39 @@ bazel-bin/tensorflow/contrib/android/libandroid_tensorflow_inference_java.jar
  
 #### 　　Add TensorFlow Interface JAVA classes
   - Copy libandroid_tensorflow_inference_java.jar to app/libs/
-  - Project View: Find app/libs/libandroid_tensorflow_inference_java.jar ->Right Click -> Add as library
+  - Project View: Find app/libs/libandroid_tensorflow_inference_java.jar ->Right Click -> Add as library
  
 #### 　　Add TensorFlow Interface Library
-  - Create New Folder app/src/main/jniLibs/armeabi-v7a/
+  - Create New Folder app/src/main/jniLibs/armeabi-v7a/
   - Copy libtensorflow_inference.so to this folder
-    　　Note:armeabi-v7a is for arm-base solution , it should be x86 or x86_64 on Intel Solution
+    Note:armeabi-v7a is for arm-base solution , it should be x86 or x86_64 on Intel Solution
   
+### 3. Run TensorFlow Model on Android project
+
+Import Tensor Flow Java Class:
+```
+import org.tensorflow.contrib.android.TensorFlowInferenceInterface;
+```
+Declare AssetManager and initialize it to use file in Asset 
+
+Declare TensorFlowInferenceInterface and construct by the .pb file
+```
+AssetManager mAssetManager = getAssets();
+TensorFlowInferenceInterface inferenceInterface = new TensorFlowInferenceInterface(mAssetManager,"file:///android_asset/test.pb");
+```
+Then we can input data , run model and get output by following methods of TensorFlowInferenceInterface :
+```
+inferenceInterface.feed(INPUT_NAME,input_x,1,4);
+inferenceInterface.run(outputNames,false);
+inferenceInterface.fetch(OUTPUT_NAME,out_buffer);
+```
+- .feed(...)
+<INPUT_NAME> is a String ,this content must equals to the labeled input name in original Python code.
+
+input_x,1,4 => it will create a Tensor of Shape[1,4] with content src input_x.
+
+This method is undocumented now , please reference the implement of 
+[TensorFlow Android Inference Interface](https://github.com/tensorflow/tensorflow/blob/master/tensorflow/contrib/android)
+
+and Java class [Tensor](https://www.tensorflow.org/api_docs/java/reference/org/tensorflow/Tensor) 
+
