@@ -37,8 +37,8 @@ bazel-bin/tensorflow/contrib/android/libandroid_tensorflow_inference_java.jar
  
 #### 　　Add TensorFlow Interface Library
   - Create New Folder app/src/main/jniLibs/armeabi-v7a/
-  - Copy libtensorflow_inference.so to this folder
-    Note:armeabi-v7a is for arm-base solution , it should be x86 or x86_64 on Intel Solution
+  - Copy libtensorflow_inference.so to this folder 
+    <br>Note:armeabi-v7a is for arm-base solution , it should be x86 or x86_64 on Intel Solution
   
 ### 3. Run TensorFlow Model on Android project
 
@@ -64,8 +64,18 @@ inferenceInterface.fetch(OUTPUT_NAME,out_buffer);
 
 input_x,1,4 => it will create a Tensor of Shape[1,4] with content src input_x.
 
-This method is undocumented now , please reference the implement of 
+- .run(...)
+<outputNames> must be a String array ,these contents must equal to the labeled output/node names in original Python code.
+
+- .fetch(...)
+<OUTPUT_NAME> is a String ,this contents must equals to the labeled output/node name in original Python code.
+
+out_buffer must be same type with model output, and must be sure it's size is enough to store the output data.
+
+These methods are undocumented now , please reference the implement of 
 [TensorFlow Android Inference Interface](https://github.com/tensorflow/tensorflow/blob/master/tensorflow/contrib/android)
 
 and Java class [Tensor](https://www.tensorflow.org/api_docs/java/reference/org/tensorflow/Tensor) 
+
+Or we can refer  [TensorFlow Android Camera Demo](https://github.com/tensorflow/tensorflow/tree/master/tensorflow/examples/android/src/org/tensorflow/demo) to know how to implement it.
 
